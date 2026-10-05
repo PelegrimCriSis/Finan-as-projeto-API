@@ -1,19 +1,8 @@
-app.post('/lancamentos', validarLancamento, (req, res) => {
-  const novoLancamento = {
-    id: lancamentos.length + 1,
-    descricao: req.body.descricao,
-    valor: req.body.valor,
-    tipo: req.body.tipo,
-    data: req.body.data,
-    contaId: req.body.contaId,
-    categoriaId: req.body.categoriaId
-  };
+app.use((req, res) => {
+  res.status(404).json({ erro: 'Rota não encontrada' });
+});
 
-  if (!novoLancamento.data) {
-    novoLancamento.data = new Date().toISOString().slice(0, 10);
-  }
-
-  lancamentos.push(novoLancamento);
-
-  res.status(201).json(novoLancamento);
+// Inicia o servidor
+app.listen(PORT, () => {
+  console.log('Servidor rodando em http://localhost:' + PORT);
 });
