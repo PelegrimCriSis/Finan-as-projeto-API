@@ -1,32 +1,27 @@
-app.get('/contas/:id/saldo', (req, res) => {
-  const id = parseInt(req.params.id);
-  let conta;
+app.get('/lancamentos', (req, res) => {
+  const categoriaId = req.query.categoriaId;
+  const inicio = req.query.inicio;
+  const fim = req.query.fim;
 
-  for (let i = 0; i < contas.length; i++) {
-    if (contas[i].id === id) {
-      conta = contas[i];
-    }
+  let resultado = lancamentos;
+
+  if (categoriaId) {
+    resultado = resultado.filter(function(lancamento) {
+      return lancamento.categoriaId === parseInt(categoriaId);
+    });
   }
 
-  if (conta == undefined) {
-    return res.status(404).json({ erro: 'Conta não encontrada' });
+  if (inicio) {
+    resultado = resultado.filter(function(lancamento) {
+      return lancamento.data >= inicio;
+    });
   }
 
-  let saldo = conta.saldoInicial;
+  if (fim) {
+    resultado = resultado.filter(function(lancamento) {
+      return lancamento.data <= fim;
+    });
+  }
 
-  lancamentos.forEach(function(lancamento) {
-    if (lancamento.contaId === conta.id) {
-      if (lancamento.tipo === 'receita') {
-        saldo = saldo + lancamento.valor;
-      } else {
-        saldo = saldo - lancamento.valor;
-      }
-    }
-  });
-
-  res.json({
-    contaId: conta.id,
-    nome: conta.nome,
-    saldo: saldo
-  });
+  res.json(resultado);
 });
