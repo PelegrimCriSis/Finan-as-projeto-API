@@ -1,20 +1,24 @@
-app.get('/contas', (req, res) => {
-  res.json(contas);
-});
+app.post('/contas', (req, res) => {
+  const nome = req.body.nome;
+  const saldoInicial = req.body.saldoInicial;
 
-app.get('/contas/:id', (req, res) => {
-  const id = parseInt(req.params.id);
-  let conta;
-
-  for (let i = 0; i < contas.length; i++) {
-    if (contas[i].id === id) {
-      conta = contas[i];
-    }
+  if (!nome) {
+    return res.status(400).json({ erro: 'Campo "nome" é obrigatório' });
   }
 
-  if (conta == undefined) {
-    return res.status(404).json({ erro: 'Conta não encontrada' });
+  let id = 1;
+
+  if (contas.length > 0) {
+    id = contas[contas.length - 1].id + 1;
   }
 
-  res.json(conta);
+  const novaConta = {
+    id: id,
+    nome: nome,
+    saldoInicial: saldoInicial || 0
+  };
+
+  contas.push(novaConta);
+
+  res.status(201).json(novaConta);
 });
