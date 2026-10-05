@@ -1,24 +1,20 @@
-app.get('/', (req, res) => {
-  res.send('API de Controle Financeiro no ar');
+app.get('/contas', (req, res) => {
+  res.json(contas);
 });
 
-app.get('/categorias', (req, res) => {
-  res.json(categorias);
-});
+app.get('/contas/:id', (req, res) => {
+  const id = parseInt(req.params.id);
+  let conta;
 
-app.post('/categorias', (req, res) => {
-  const nome = req.body.nome;
-
-  if (!nome) {
-    return res.status(400).json({ erro: 'Campo "nome" é obrigatório' });
+  for (let i = 0; i < contas.length; i++) {
+    if (contas[i].id === id) {
+      conta = contas[i];
+    }
   }
 
-  const novaCategoria = {
-    id: categorias.length + 1,
-    nome: nome
-  };
+  if (conta == undefined) {
+    return res.status(404).json({ erro: 'Conta não encontrada' });
+  }
 
-  categorias.push(novaCategoria);
-
-  res.status(201).json(novaCategoria);
+  res.json(conta);
 });
