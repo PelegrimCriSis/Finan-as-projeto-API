@@ -1,4 +1,4 @@
-app.put('/contas/:id', (req, res) => {
+app.delete('/contas/:id', (req, res) => {
   const id = parseInt(req.params.id);
   let conta;
 
@@ -12,15 +12,9 @@ app.put('/contas/:id', (req, res) => {
     return res.status(404).json({ erro: 'Conta não encontrada' });
   }
 
-  if (!req.body.nome) {
-    return res.status(400).json({ erro: 'Campo "nome" é obrigatório' });
-  }
+  contas = contas.filter(function(c) {
+    return c.id !== id;
+  });
 
-  conta.nome = req.body.nome;
-
-  if (req.body.saldoInicial != undefined) {
-    conta.saldoInicial = req.body.saldoInicial;
-  }
-
-  res.json(conta);
+  res.json({ mensagem: 'Conta excluída' });
 });
