@@ -2,6 +2,13 @@
   "name": "controle-financeiro-parcial",
   "version": "1.0.0",
   "main": "server.js",
-  "scripts": { "start": "node server.js" },
-  "dependencies": { "express": "^5.2.1" }
+  "scripts": {
+    "start": "node server.js"
+  },
+  "dependencies": {
+    "dotenv": "^18.0.10",
+    "express": "^5.2.1",
+    "mongodb": "^7.9.1"
+  }
 }
+
